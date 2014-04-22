@@ -1,0 +1,77 @@
+<!doctype html>
+
+<head>
+
+</head>
+
+<body>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var SOCKET_URL = 'http://localhost:3000';
+
+        var socket = io.connect(SOCKET_URL);
+
+        socket.on('initialize', function(messages) {
+            for (var i = 0; i < messages.length; i++) {
+                $('.messageList').append('<li>' +
+                    messages[i].timestamp + ': ' +
+                    messages[i].msg);
+            }
+        });
+
+        socket.on('user-connect', function(name) {
+            $('.messageList').append('<li>' + name +
+                ' has connected.');
+        });
+
+        socket.on('disconnect', function(name) {
+            $('.messageList').append('<li>' + name +
+                'has disconnected');
+        });
+
+        socket.on('chat', function(message) {
+            $('.messageList').append('<li>' +
+                message.timestamp + ': ' +
+                message.msg);
+        });
+
+        $(function() {
+            $('.loginForm').submit(function(ev) {
+                ev.preventDefault();
+
+                var username = $('.loginForm input[type=text]').val();
+                socket.emit('login', username);
+
+                $('.loginForm').hide();
+                $('.messageForm').show();
+
+                return false;
+            });
+
+            $('.messageForm').submit(function(ev) {
+                ev.preventDefault();
+
+                var message = $('.messageForm input[type=text]').val();
+                socket.emit('chat', message);
+
+                return false;
+            });
+        });
+
+    </script>
+
+    <h2>Building Real-Time Apps with Socket.IO</h2>
+
+    <ul class="messageList">
+    </ul>
+    <form class="loginForm">
+        <input type="text" name="username" placeholder="Username">
+        <input type="submit" value="Login">
+    </form>
+    <form class="messageForm" style="display: none;">
+        <input type="text" name="messsage" placeholder="Message">
+        <input type="submit" value="Submit">
+    </form>
+</body>
