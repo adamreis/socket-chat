@@ -46,7 +46,7 @@ io.sockets.on('connection', function (socket) {
             messages.shift();
         }
 
-        io.sockets.emit(data);
+        io.sockets.emit('chat', data);
     });
 
     socket.on('login', function (name) {
