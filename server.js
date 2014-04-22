@@ -4,7 +4,9 @@
 
 var express = require('express'),
     app = express(),
-    io = require('socket.io').listen(app);
+    http = require('http'),
+    server = http.createServer(app),
+    io = require('socket.io').listen(server);
 
 /**
  * Create the routes
@@ -19,14 +21,13 @@ app.get("/", function(request, response) {
  * Listen
  */
 
-app.listen(3000);
+server.listen(3000);
 
 
 /**
  * Socket.IO stuff
  */
 
-var io = sio.listen(server);
 var messages = [];
 
 io.sockets.on('connection', function (socket) {
