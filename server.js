@@ -36,7 +36,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat', function (msg) {
         var data = {
             msg: msg,
-            timestamp: new Date()
+            timestamp: new Date(),
+            username: socket.username
         };
 
         messages.push(data);

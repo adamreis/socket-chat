@@ -15,8 +15,10 @@
 
         socket.on('initialize', function(messages) {
             for (var i = 0; i < messages.length; i++) {
+                var d = new Date(messages[i].timestamp);
                 $('.messageList').append('<li>' +
-                    messages[i].timestamp + ': ' +
+                    '(' + d.toLocaleTimeString() + ') <b>' +
+                    messages[i].username + ': </b>' + 
                     messages[i].msg);
             }
         });
@@ -32,8 +34,10 @@
         });
 
         socket.on('chat', function(message) {
+            var d = new Date(message.timestamp);
             $('.messageList').append('<li>' +
-                message.timestamp + ': ' +
+                 '(' + d.toLocaleTimeString() + ') <b>' +
+                message.username +  ': </b>' +
                 message.msg);
         });
 
