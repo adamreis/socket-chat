@@ -43,7 +43,7 @@ io.sockets.on('connection', function (socket) {
         messages.push(data);
 
         // clear excess messages
-        if (messages.length > 50) {
+        if (messages.length > 25) {
             messages.shift();
         }
 
